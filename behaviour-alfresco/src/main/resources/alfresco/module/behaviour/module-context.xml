@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+<beans>
+
+	<!-- Bootstrap -->
+	<bean id="com.ixxus.cguerrero.behaviour_dictionaryBootstrap"
+		parent="dictionaryModelBootstrap" depends-on="dictionaryBootstrap">
+		<property name="models">
+			<list>
+				<value>alfresco/module/behaviour/model/library-model.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="webscript.com.ixxus.cguerrero.sampleWebScript.get"
+		class="com.ixxus.cguerrero.SampleWebScript" parent="webscript" />
+
+ 	 <bean id="libraryBehaviour" class="com.ixxus.cguerrero.Library" init-method="init">
+     	<property name="policyComponent" ref="policyComponent"></property>
+     	<property name="nodeService" ref="NodeService"></property>
+    </bean>
+	
+</beans>

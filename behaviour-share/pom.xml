@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.ixxus.cguerrero</groupId>
+		<artifactId>behaviour</artifactId>
+		<version>4.2.0.3.1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>behaviour-share</artifactId>
+	<packaging>jar</packaging>
+
+	<!-- <build>
+		<plugins>
+			<plugin>
+				There seems to be a bug in this plugin, that resources cannot be 
+					overriden ! So be careful what you minify
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>yuicompressor-maven-plugin</artifactId>
+				<version>1.2</version>
+				<configuration>
+					<excludes>
+						<exclude>alfresco/**/*.*</exclude>
+						<exclude>**/*-min.js</exclude>
+						<exclude>**/*.css</exclude>
+					</excludes>
+					<resources />
+				</configuration>
+				<executions>
+					<execution>
+						<id>compress-js</id>
+						<goals>
+							<goal>compress</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build> -->
+
+	<dependencies>
+		<dependency>
+			<groupId>com.ixxus.alfresco</groupId>
+			<artifactId>ixxus-share-sdk</artifactId>
+			<version>4.2.0.0.0.3-SNAPSHOT</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+</project>

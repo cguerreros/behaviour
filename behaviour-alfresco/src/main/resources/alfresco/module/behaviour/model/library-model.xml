@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<model name="bh:model" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+	<description>Library Model</description>
+	<author>cguerrero</author>
+	<version>1.0</version>
+
+	<!-- Imports are required to allow references to definitions in other models -->
+	<imports>
+		<!-- Import Alfresco Definitions -->
+		<import uri="http://www.alfresco.org/model/dictionary/1.0"
+			prefix="d" />
+		<import uri="http://www.alfresco.org/model/content/1.0" prefix="cm" />
+		<import uri="http://www.alfresco.org/model/application/1.0"
+			prefix="app" />
+		<import uri="http://www.alfresco.org/model/wcmmodel/1.0"
+			prefix="wcm" />
+		<import uri="http://www.alfresco.org/model/forum/1.0" prefix="fm" />
+		<import uri="http://www.alfresco.org/model/bpm/1.0" prefix="bpm" />
+	</imports>
+
+	<!-- Introduction of new namespaces defined by this model -->
+	<namespaces>
+		<namespace uri="http://www.ixxus.co.uk/model/behaviour/1.0"
+			prefix="bh" />
+	</namespaces>
+
+
+	<constraints />
+	
+	<types/>
+
+	<aspects>
+		<aspect name="bh:libraryAspect">
+			<title>Library Aspect</title>
+			<properties>
+				<property name="bh:expedient">
+					<type>d:text</type>
+				</property>
+				<property name="bh:section">
+					<type>d:text</type>
+				</property>
+				<property name="bh:public">
+					<type>d:boolean</type>
+					<default>true</default>
+				</property>
+				<property name="bh:booked">
+					<type>d:boolean</type>
+					<default>false</default>
+				</property>
+				<property name="bh:dateBooked">
+					<type>d:date</type>
+				</property>
+			</properties>
+		</aspect>
+	</aspects>
+</model>

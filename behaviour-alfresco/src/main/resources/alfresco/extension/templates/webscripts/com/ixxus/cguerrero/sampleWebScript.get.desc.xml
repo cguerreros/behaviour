@@ -1,0 +1,8 @@
+<webscript>
+	<shortname>Sample action</shortname>
+	<description>Sample action</description>
+	<url>/ixxus/sampleWebScript?nodeRef={nodeRef}&amp;userName={userName}</url>
+	<format default="html" />
+	<authentication>user</authentication>
+	<transaction>none</transaction>
+</webscript>
