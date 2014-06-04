@@ -6,7 +6,11 @@ import com.ixxus.test.AlfrescoTestUtils;
 
 public class ContentModelTest {
 
-    @Test
+    public class LibraryTest {
+
+	}
+
+	@Test
     public void testBootstrapModel() throws Exception {
         AlfrescoTestUtils.testBootstrapModel("alfresco/module/behaviour/model/library-model.xml");
     }

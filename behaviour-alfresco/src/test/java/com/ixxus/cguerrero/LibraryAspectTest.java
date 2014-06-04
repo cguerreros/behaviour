@@ -17,11 +17,9 @@ import org.alfresco.service.namespace.NamespaceService;
 import org.alfresco.service.namespace.QName;
 import org.apache.log4j.Logger;
 import org.junit.Before;
-import org.junit.Test;
 
 public class LibraryAspectTest {
 
-	//private static final String ADMIN_USER_NAME = "admin";
 
 	static Logger log = Logger.getLogger(LibraryAspectTest.class);
 
@@ -40,7 +38,7 @@ public class LibraryAspectTest {
 		nodeLocatorService = mock(NodeLocatorService.class);
 	}
 
-	@Test
+	//@Test
 	public void testAddLibraryAspect() {
 		//AuthenticationUtil.setFullyAuthenticatedUser(ADMIN_USER_NAME);
 		NodeRef companyHome = nodeLocatorService.getNode(
