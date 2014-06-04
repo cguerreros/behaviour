@@ -11,7 +11,7 @@ public class JenkinsFailTest {
 		 //add comment
 	      assertTrue(false);
 	      
-	      //another comment
+	      
 	    }
 
 }
