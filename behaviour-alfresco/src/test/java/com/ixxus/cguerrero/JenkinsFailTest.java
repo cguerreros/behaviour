@@ -10,7 +10,7 @@ public class JenkinsFailTest {
 	    public void testFAil() {
 		 //add comment
 	      assertTrue(false);
-	     //fdsfs
+	     
 	    }
 
 }
