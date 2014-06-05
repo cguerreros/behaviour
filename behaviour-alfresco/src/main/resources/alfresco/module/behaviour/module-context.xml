@@ -16,7 +16,7 @@
 		class="com.ixxus.cguerrero.SampleWebScript" parent="webscript" />
 
  	 <bean id="libraryBehaviour" class="com.ixxus.cguerrero.Library" init-method="init">
-     	<property name="policyComponent" ref="PolicyComponent"></property>
+     	<property name="policyComponent" ref="policyComponent"></property>
      	<property name="nodeService" ref="NodeService"></property>
     </bean>
     

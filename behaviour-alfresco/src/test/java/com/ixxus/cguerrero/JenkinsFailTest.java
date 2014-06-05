@@ -8,7 +8,6 @@ public class JenkinsFailTest {
 	
 	 @Test
 	    public void testFAil() {
-		 //add comment
 	      assertTrue(false);
 	    }
 
