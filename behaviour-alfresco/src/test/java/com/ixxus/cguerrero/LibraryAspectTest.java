@@ -28,8 +28,8 @@ public class LibraryAspectTest {
 	static Logger log = Logger.getLogger(LibraryAspectTest.class);
 	private Library libraryBehaviour;
 
-	NodeRef testNode;
-	NodeRef childRef;
+	private NodeRef testNode;
+	private NodeRef childRef;
 
 	private ActionService actionService;
 	private PolicyComponent policyComponent;
