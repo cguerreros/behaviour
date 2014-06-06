@@ -56,7 +56,6 @@ public class LibraryAspectTest {
 	@Test
 	public void testOnCreateNode() {
 		testNode = new NodeRef("workspace://spaceStore/testNode");
-
 		libraryBehaviour.setActionService(actionService);
 		childRef = new NodeRef("workspace://spacesStore/childNode");
 

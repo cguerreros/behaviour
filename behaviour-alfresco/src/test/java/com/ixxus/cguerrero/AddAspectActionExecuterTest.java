@@ -1,8 +1,8 @@
 package com.ixxus.cguerrero;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
 
 import java.io.Serializable;
 
@@ -55,29 +55,22 @@ public class AddAspectActionExecuterTest {
 	
 	@Test
 	public void testExecuteAddAspectAction(){
-		nodeService = mock(NodeService.class);
+		//nodeService = mock(NodeService.class);
 		testContent = new NodeRef("workspace://SpacesStore/testContent");
 		when(nodeService.exists(testContent)).thenReturn(true);
 		
 		AddAspectActionExecuter actionExecutor = new AddAspectActionExecuter();
 		actionExecutor.setNodeService(nodeService);
 		actionExecutor.setAttributeService(attributeService);
-		actionExecutor.executeImpl(null, testContent);
+		
 		when(nodeService.hasAspect(any(NodeRef.class), any(QName.class))).thenReturn(true);
-	
+		when(attributeService.exists(LibraryModelI.NAMESPACE,
+				LibraryModelI.ASPECT_BH_LIBRARY,
+				LibraryModelI.PROP_BOOKED)).thenReturn(false);
+		actionExecutor.executeImpl(null, testContent);
 		
 		verify(nodeService).addAspect(testContent,aspectQName,null);
-		
-		/*when(attributeService.exists(LibraryModelI.NAMESPACE,
-				LibraryModelI.ASPECT_BH_LIBRARY,
-				LibraryModelI.PROP_BOOKED)).thenReturn(false);*/
-		//verify(attributeService).createAttribute(any(Serializable.class), any(Serializable.class));
-		
+		verify(attributeService).createAttribute(any(Serializable.class), any(Serializable.class),any(Serializable.class),any(Serializable.class));
 	}
-	
-	public void testCreateAttribute(){
-		
-	}
-	
 	
 }

@@ -27,13 +27,13 @@ public class AddAspectActionExecuter extends ActionExecuterAbstractBase {
 
 	@Override
 	protected void executeImpl(Action action, NodeRef actionedUponNodeRef) {
-
-		if (this.nodeService.exists(actionedUponNodeRef)) {
+		log.debug("Method executeImple Start");
+		if (nodeService.exists(actionedUponNodeRef)) {
 			// get the name of the aspect.
 			QName aspectQName = QName.createQName(LibraryModelI.NAMESPACE,
 					LibraryModelI.ASPECT_BH_LIBRARY);
-			this.nodeService.addAspect(actionedUponNodeRef, aspectQName, null);
-			if (this.nodeService.hasAspect(actionedUponNodeRef, aspectQName)) {
+			nodeService.addAspect(actionedUponNodeRef, aspectQName, null);
+			if (nodeService.hasAspect(actionedUponNodeRef, aspectQName)) {
 				QName propBooked = QName.createQName(LibraryModelI.NAMESPACE,
 						LibraryModelI.PROP_BOOKED);
 				Serializable nodePropValue = nodeService.getProperty(
@@ -41,6 +41,7 @@ public class AddAspectActionExecuter extends ActionExecuterAbstractBase {
 				if(!attributeService.exists(LibraryModelI.NAMESPACE,
 						LibraryModelI.ASPECT_BH_LIBRARY,
 						LibraryModelI.PROP_BOOKED)){
+					
 				attributeService.createAttribute(nodePropValue,
 						LibraryModelI.NAMESPACE,
 						LibraryModelI.ASPECT_BH_LIBRARY,
@@ -48,12 +49,14 @@ public class AddAspectActionExecuter extends ActionExecuterAbstractBase {
 				log.debug("New attribute added, value " + nodePropValue + " keys " + LibraryModelI.NAMESPACE +","+
 						LibraryModelI.ASPECT_BH_LIBRARY+","+
 						LibraryModelI.PROP_BOOKED);
+				
 				}
 			}
 
 		} else {
 			log.debug("The node does not exists");
 		}
+		log.debug("Method executeImple End");
 	}
 
 	@Override
