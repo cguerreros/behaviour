@@ -5,6 +5,8 @@ import org.alfresco.repo.policy.Behaviour;
 import org.alfresco.repo.policy.Behaviour.NotificationFrequency;
 import org.alfresco.repo.policy.JavaBehaviour;
 import org.alfresco.repo.policy.PolicyComponent;
+import org.alfresco.service.cmr.action.Action;
+import org.alfresco.service.cmr.action.ActionService;
 import org.alfresco.service.cmr.repository.ChildAssociationRef;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
@@ -15,11 +17,12 @@ import org.apache.log4j.Logger;
 public class Library implements NodeServicePolicies.OnCreateNodePolicy, NodeServicePolicies.OnUpdateNodePolicy, NodeServicePolicies.OnAddAspectPolicy {
 
 	//Log
-	static Logger log = Logger.getLogger(Library.class);
+	private static Logger log = Logger.getLogger(Library.class);
 	
 	// Dependencies
 	private NodeService nodeService;
 	private PolicyComponent policyComponent;
+	private ActionService actionService;
 
 	// Behaviours
 	private Behaviour onCreateNode;
@@ -54,17 +57,20 @@ public class Library implements NodeServicePolicies.OnCreateNodePolicy, NodeServ
 				"cm:content",
 				this.onAddAspect);
 		
-		
-		
 	}
 	
 	@Override
 	public void onCreateNode(ChildAssociationRef childAssocRef) {
 		
-		log.debug("Setting properties onCreateNode");
-		// get the parent node
-	    NodeRef parentRef = childAssocRef.getParentRef();
-	    setPropertiesAspect(parentRef);
+		log.debug("onCreateNode start");
+		Action addAspectAction = actionService.createAction(AddAspectActionExecuter.NAME);
+		addAspectAction.setParameterValue(AddAspectActionExecuter.PARAM_ASPECT_NAME, LibraryModelI.ASPECT_BH_LIBRARY);
+		log.debug("Before execute action "+AddAspectActionExecuter.NAME);
+		
+		NodeRef nodeRef = childAssocRef.getChildRef();
+		actionService.executeAction(addAspectAction,nodeRef,false,true );
+		log.debug("After execute action "+AddAspectActionExecuter.NAME);
+		log.debug("onCreateNode end");
 	}
 
 	@Override
@@ -119,5 +125,10 @@ public class Library implements NodeServicePolicies.OnCreateNodePolicy, NodeServ
 	public void setPolicyComponent(PolicyComponent policyComponent) {
 		this.policyComponent = policyComponent;
 	}
+
+	public void setActionService(ActionService actionService) {
+		this.actionService = actionService;
+	}
+	
 
 }

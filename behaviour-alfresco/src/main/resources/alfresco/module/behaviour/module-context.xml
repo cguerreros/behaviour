@@ -18,10 +18,16 @@
  	 <bean id="libraryBehaviour" class="com.ixxus.cguerrero.Library" init-method="init">
      	<property name="policyComponent" ref="policyComponent"></property>
      	<property name="nodeService" ref="NodeService"></property>
+     	<property name="actionService" ref="ActionService"></property>
     </bean>
     
-     <bean id="move-replaced" class="com.ixxus.cguerrero.MoveReplacedActionExecuter" init-method="init">
+     <bean id="move-replaced" class="com.ixxus.cguerrero.MoveReplacedActionExecuter" parent="action-executer">
      	<property name="fileFolderService" ref="FileFolderService"></property>
+     	<property name="nodeService" ref="NodeService"></property>
+    </bean>
+    <bean id="add-aspect" class="com.ixxus.cguerrero.AddAspectActionExecuter" parent="action-executer">
+     	<property name="nodeService" ref="NodeService"></property>
+     	<property name="attributeService" ref="AttributeService"></property>
     </bean>
 	
 </beans>

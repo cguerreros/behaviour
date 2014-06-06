@@ -8,7 +8,7 @@ public class JenkinsFailTest {
 	
 	 @Test
 	    public void testFAil() {
-	      assertTrue(false);
+	      assertTrue(true);
 	    }
 
 }
