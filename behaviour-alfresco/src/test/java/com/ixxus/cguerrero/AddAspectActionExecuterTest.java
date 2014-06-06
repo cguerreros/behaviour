@@ -2,6 +2,9 @@ package com.ixxus.cguerrero;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
+
+import java.io.Serializable;
 
 import org.alfresco.service.cmr.attributes.AttributeService;
 import org.alfresco.service.cmr.repository.NodeRef;
@@ -16,10 +19,15 @@ public class AddAspectActionExecuterTest {
 	private NodeService nodeService;
 	private AttributeService attributeService;
 	
+	private NodeRef testContent;
+	private QName aspectQName;
+	
 	@Before
 	public void setUp() throws Exception {
 		nodeService = mock(NodeService.class);
 		attributeService = mock(AttributeService.class);
+		aspectQName = QName.createQName(LibraryModelI.NAMESPACE,
+				LibraryModelI.ASPECT_BH_LIBRARY);
 	}
 
 	/* testGetAction - doesn't actually test the class, can be removed */
@@ -41,26 +49,35 @@ public class AddAspectActionExecuterTest {
 	- You'll need to mock the services that are called inside your AddAspectActionExecuter class*/
 	
 	
+	/*
+	 * The only thing you could add would be to verify your attributeService mock.
+	 */ 
+	
 	@Test
 	public void testExecuteAddAspectAction(){
 		nodeService = mock(NodeService.class);
-		QName aspectQName = QName.createQName(LibraryModelI.NAMESPACE,
-				LibraryModelI.ASPECT_BH_LIBRARY);
-		NodeRef testContent = new NodeRef("workspace://SpacesStore/testContent");
+		testContent = new NodeRef("workspace://SpacesStore/testContent");
 		when(nodeService.exists(testContent)).thenReturn(true);
 		
 		AddAspectActionExecuter actionExecutor = new AddAspectActionExecuter();
 		actionExecutor.setNodeService(nodeService);
 		actionExecutor.setAttributeService(attributeService);
 		actionExecutor.executeImpl(null, testContent);
-		when(nodeService.hasAspect(testContent, aspectQName)).thenReturn(true);
+		when(nodeService.hasAspect(any(NodeRef.class), any(QName.class))).thenReturn(true);
+	
 		
 		verify(nodeService).addAspect(testContent,aspectQName,null);
-		//is this line stupid?
-        //assertTrue(nodeService.hasAspect(testContent,aspectQName));
+		
+		/*when(attributeService.exists(LibraryModelI.NAMESPACE,
+				LibraryModelI.ASPECT_BH_LIBRARY,
+				LibraryModelI.PROP_BOOKED)).thenReturn(false);*/
+		//verify(attributeService).createAttribute(any(Serializable.class), any(Serializable.class));
 		
 	}
 	
+	public void testCreateAttribute(){
+		
+	}
 	
 	
 }

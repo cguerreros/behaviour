@@ -6,11 +6,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import java.io.Serializable;
-
 import org.alfresco.model.ContentModel;
-import org.alfresco.repo.nodelocator.NodeLocatorService;
 import org.alfresco.repo.policy.JavaBehaviour;
 import org.alfresco.repo.policy.PolicyComponent;
 import org.alfresco.service.cmr.action.Action;
@@ -19,13 +16,11 @@ import org.alfresco.service.cmr.repository.ChildAssociationRef;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.namespace.QName;
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
 public class LibraryAspectTest {
 
-	static Logger log = Logger.getLogger(LibraryAspectTest.class);
 	private Library libraryBehaviour;
 
 	private NodeRef testNode;
@@ -36,15 +31,16 @@ public class LibraryAspectTest {
 	private NodeService nodeService;
 	private QName aspectName;
 
+	
 	@Before
 	public void setUp() {
 		nodeService = mock(NodeService.class);
-		mock(NodeLocatorService.class);
 		actionService = mock(ActionService.class);
 		libraryBehaviour = new Library();
 		policyComponent = mock(PolicyComponent.class);
 		aspectName = QName.createQName(LibraryModelI.NAMESPACE,
 				LibraryModelI.ASPECT_BH_LIBRARY);
+		communInitialization();
 	}
 
 	@Test
@@ -76,7 +72,7 @@ public class LibraryAspectTest {
 
 	}
 
-	public void communInizialitation() {
+	public void communInitialization() {
 		libraryBehaviour = new Library();
 		libraryBehaviour.setNodeService(nodeService);
 		testNode = new NodeRef("workspace://spaceStore/testNode");
@@ -88,21 +84,15 @@ public class LibraryAspectTest {
 
 	@Test
 	public void testOnUpdateNode() {
-
-		communInizialitation();
 		libraryBehaviour.onUpdateNode(testNode);
 		verify(nodeService, times(2)).setProperty(any(NodeRef.class),
 				any(QName.class), any(Serializable.class));
-
 	}
 
 	@Test
 	public void testOnAddAspect() {
-
-		communInizialitation();
 		libraryBehaviour.onAddAspect(testNode, aspectName);
 		verify(nodeService, times(2)).setProperty(any(NodeRef.class),
 				any(QName.class), any(Serializable.class));
-
 	}
 }

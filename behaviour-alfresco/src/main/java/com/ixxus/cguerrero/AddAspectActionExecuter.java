@@ -32,8 +32,8 @@ public class AddAspectActionExecuter extends ActionExecuterAbstractBase {
 			// get the name of the aspect.
 			QName aspectQName = QName.createQName(LibraryModelI.NAMESPACE,
 					LibraryModelI.ASPECT_BH_LIBRARY);
-			nodeService.addAspect(actionedUponNodeRef, aspectQName, null);
-			if (nodeService.hasAspect(actionedUponNodeRef, aspectQName)) {
+			this.nodeService.addAspect(actionedUponNodeRef, aspectQName, null);
+			if (this.nodeService.hasAspect(actionedUponNodeRef, aspectQName)) {
 				QName propBooked = QName.createQName(LibraryModelI.NAMESPACE,
 						LibraryModelI.PROP_BOOKED);
 				Serializable nodePropValue = nodeService.getProperty(
