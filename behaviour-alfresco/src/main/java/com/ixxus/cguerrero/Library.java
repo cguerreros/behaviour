@@ -27,14 +27,13 @@ public class Library implements NodeServicePolicies.OnCreateNodePolicy, NodeServ
 	// Behaviours
 	private Behaviour onCreateNode;
 	private Behaviour onUpdateNode;
-	
 	private Behaviour onAddAspect;
-	//private Behaviour onDeleteNode;
-	//NodeServicePolicies.OnDeleteNodePolicy,
+
+	
 	public void init(){
 		//create the behaviours.
-		log.debug("");
-		//TODO Check what the notification frecuency do!!!
+		log.debug("Method init start.");
+
 		onCreateNode = new JavaBehaviour(this,"onCreateNode", NotificationFrequency.TRANSACTION_COMMIT);//FIRST_EVENT, EVERY_EVENT.
 		onUpdateNode = new JavaBehaviour(this,"onUpdateNode", NotificationFrequency.EVERY_EVENT);
 		onAddAspect = new JavaBehaviour(this, "onAddAspect", NotificationFrequency.EVERY_EVENT);
@@ -42,7 +41,6 @@ public class Library implements NodeServicePolicies.OnCreateNodePolicy, NodeServ
 		
 		//bind behaviours to node policies.
 		
-		//this.policyComponent.bi
 		this.policyComponent.bindClassBehaviour(
 				QName.createQName(NamespaceService.ALFRESCO_URI,"onCreateNode"),
 				"cm:content",
@@ -56,7 +54,7 @@ public class Library implements NodeServicePolicies.OnCreateNodePolicy, NodeServ
 				QName.createQName(NamespaceService.ALFRESCO_URI,"onAddAspect"),
 				"cm:content",
 				this.onAddAspect);
-		
+		log.debug("Method init end.");
 	}
 	
 	@Override
@@ -76,7 +74,6 @@ public class Library implements NodeServicePolicies.OnCreateNodePolicy, NodeServ
 	@Override
 	public void onUpdateNode(NodeRef nodeRef) {
 		log.debug("Setting properties onUpdateNode");
-		// get the parent node
 	    setPropertiesAspect(nodeRef);
 	}
 
@@ -84,13 +81,12 @@ public class Library implements NodeServicePolicies.OnCreateNodePolicy, NodeServ
 	@Override
 	public void onAddAspect(NodeRef nodeRef, QName aspectTypeQName) {
 		log.debug("Setting properties onAddAspect");
-		// get the parent node
 	    setPropertiesAspect(nodeRef);
 		
 	}
 
 	
-	public void setPropertiesAspect(NodeRef parentRef){
+	private void setPropertiesAspect(NodeRef parentRef){
 		
 		  // check the parent to make sure it has the right aspect
 	    if (nodeService.exists(parentRef) && nodeService.hasAspect(parentRef, QName.createQName(LibraryModelI.NAMESPACE,LibraryModelI.ASPECT_BH_LIBRARY))) {
