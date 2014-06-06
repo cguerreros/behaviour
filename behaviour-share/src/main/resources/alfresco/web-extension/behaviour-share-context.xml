@@ -3,11 +3,11 @@
 
 <beans>
 	<!-- Add Someco messages -->
-	<bean id="exercise_resources"
+	<bean id="behaviour_resources"
 		class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
 		<property name="resourceBundles">
 			<list>
-				<value>alfresco.messages.libraryModel</value>
+				<value>alfresco.module.behaviour-share.messages.libraryModel</value>
 			</list>
 		</property>
 	</bean>
