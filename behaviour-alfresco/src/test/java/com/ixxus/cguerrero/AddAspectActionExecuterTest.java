@@ -1,21 +1,11 @@
 package com.ixxus.cguerrero;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import org.alfresco.model.ContentModel;
-import org.alfresco.repo.nodelocator.CompanyHomeNodeLocator;
-import org.alfresco.repo.nodelocator.NodeLocatorService;
-import org.alfresco.service.cmr.action.Action;
-import org.alfresco.service.cmr.action.ActionService;
-import org.alfresco.service.cmr.repository.ChildAssociationRef;
+import org.alfresco.service.cmr.attributes.AttributeService;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
-import org.alfresco.service.namespace.NamespaceService;
 import org.alfresco.service.namespace.QName;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,64 +14,53 @@ import org.junit.Test;
 public class AddAspectActionExecuterTest {
 	
 	private NodeService nodeService;
-	private ActionService actionService;
-	private NodeLocatorService nodeLocatorService;
+	private AttributeService attributeService;
 	
 	@Before
 	public void setUp() throws Exception {
 		nodeService = mock(NodeService.class);
-		actionService = mock(ActionService.class);
-		nodeLocatorService = mock(NodeLocatorService.class);
+		attributeService = mock(AttributeService.class);
 	}
 
+	/* testGetAction - doesn't actually test the class, can be removed */
+
+	/*
+	testExecuteAction
+	- don't mock a method that you are going to execute as part of the test setup!
+	(instead, consider creating the class directly). You should only mock calls that happen inside the class under test.
+
+	Example:
+
+	NodeRef testContent = new NodeRef("workspace://SpacesStore/testContent");
+	AddAspectActionExecuter actionExecutor = new AddAspectActionExecuter();
+	actionExecutor.setParameterValue(AddAspectActionExecuter.PARAM_ASPECT_NAME, LibraryModelI.ASPECT_BH_LIBRARY);
+	actionExecutor.executeImpl(null, testContent);
+
+	- Call the execute directly on your action executor class, not the action service (as this is mocked)
+	- Set a debug breakpoint in the class under test to see if it is executing the correct parts of your code
+	- You'll need to mock the services that are called inside your AddAspectActionExecuter class*/
+	
+	
 	@Test
-	public void testGetAction() {
-		Action mockAction = mock(Action.class);
-		when(actionService.createAction("add-aspect")).thenReturn(mockAction);
-		Action action =  actionService.createAction("add-aspect");
-		assertNotNull(action);
-	}
-
-	public void testExecuteAction(){
-		when(nodeLocatorService.getNode(CompanyHomeNodeLocator.NAME, null,null)).thenReturn(mock(NodeRef.class));
-		
-		NodeRef companyHome = nodeLocatorService.getNode(CompanyHomeNodeLocator.NAME, null,null);
-		
-		Map<QName,Serializable> contentProps = new HashMap<QName, Serializable>();
-		String name ="Add Aspect Action Test("+ System.currentTimeMillis()+")";
-		contentProps.put(ContentModel.PROP_NAME, name);
-		when(nodeService.createNode(companyHome,
-                ContentModel.ASSOC_CONTAINS,
-                QName.createQName(NamespaceService.CONTENT_MODEL_PREFIX, name),
-                ContentModel.TYPE_CONTENT,
-                contentProps)).thenReturn(mock(ChildAssociationRef.class));
-		
-		// create content node
-        ChildAssociationRef association = nodeService.createNode(
-        				companyHome,
-                        ContentModel.ASSOC_CONTAINS,
-                        QName.createQName(NamespaceService.CONTENT_MODEL_PREFIX, name),
-                        ContentModel.TYPE_CONTENT,
-                        contentProps
-                        );
-        
-        NodeRef content = association.getChildRef();
-    	Action mockAction = mock(Action.class);
-		when(actionService.createAction("add-aspect")).thenReturn(mockAction);
-        Action action = actionService.createAction("add-aspect");
-        action.setParameterValue(AddAspectActionExecuter.PARAM_ASPECT_NAME, LibraryModelI.ASPECT_BH_LIBRARY);
-        actionService.executeAction(action, content);
-        when(QName.createQName(LibraryModelI.NAMESPACE,
-				LibraryModelI.ASPECT_BH_LIBRARY)).thenReturn(mock(QName.class));
-        QName aspectQName = QName.createQName(LibraryModelI.NAMESPACE,
+	public void testExecuteAddAspectAction(){
+		nodeService = mock(NodeService.class);
+		QName aspectQName = QName.createQName(LibraryModelI.NAMESPACE,
 				LibraryModelI.ASPECT_BH_LIBRARY);
-        assertTrue(nodeService.hasAspect(content,aspectQName));
+		NodeRef testContent = new NodeRef("workspace://SpacesStore/testContent");
+		when(nodeService.exists(testContent)).thenReturn(true);
+		
+		AddAspectActionExecuter actionExecutor = new AddAspectActionExecuter();
+		actionExecutor.setNodeService(nodeService);
+		actionExecutor.setAttributeService(attributeService);
+		actionExecutor.executeImpl(null, testContent);
+		when(nodeService.hasAspect(testContent, aspectQName)).thenReturn(true);
+		
+		verify(nodeService).addAspect(testContent,aspectQName,null);
+		//is this line stupid?
+        //assertTrue(nodeService.hasAspect(testContent,aspectQName));
 		
 	}
-	public void setNodeService(NodeService nodeService) {
-		this.nodeService = nodeService;
-	}
-
+	
 	
 	
 }
